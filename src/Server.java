@@ -23,19 +23,16 @@ public class Server extends Thread {
 
     @Override
     public void run() {
-        System.out.println("server listen on port : " + SERVER_PORT);
-        Socket connection = null;
+        System.out.println("server start listening on port : " + SERVER_PORT);
+        Socket connection;
         while (true) {
-            System.out.println("1");
             try {
                 connection = serverSocket.accept();
                 System.out.println("Client accepted");
                 ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
-                System.out.println(":)");
                 try {
                     Packet packet = (Packet) inputStream.readObject();
                     System.out.println(packet.getOperator().name());
-
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
