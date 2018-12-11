@@ -1,12 +1,12 @@
 public enum OperatorType {
-    Add(0),
-    Subtract(1),
-    Divide(2),
-    Multiply(3),
-    Sin(4),
-    Cos(5),
-    Tan(6),
-    Cot(7);
+    ADD(0),
+    SUBTRACT(1),
+    DIVIDE(2),
+    MULTIPLY(3),
+    SIN(4),
+    COS(5),
+    TAN(6),
+    COT(7);
 
     private int type;
 

@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -14,8 +15,8 @@ public class Server extends Thread {
     public Server() {
         try {
             serverSocket = new ServerSocket(SERVER_PORT);
-            userByte = new byte[USER_MAX_INPUT_SIZE];
             calculator = new Calculator();
+            userByte = new byte[USER_MAX_INPUT_SIZE];
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,8 +32,13 @@ public class Server extends Thread {
                 System.out.println("Client accepted");
                 ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
                 try {
-                    Packet packet = (Packet) inputStream.readObject();
-                    System.out.println(packet.getOperator().name());
+                    InputPacket inputPacket = (InputPacket) inputStream.readObject();
+                    long time = System.currentTimeMillis();
+                    double result = calculator.calculate(inputPacket);
+                    time = System.currentTimeMillis() - time;
+                    ResultPacket resultPacket = new ResultPacket(result, time);
+                    ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
+                    outputStream.writeObject(resultPacket);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }

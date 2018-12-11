@@ -1,11 +1,11 @@
 import java.io.Serializable;
 
-public class Packet implements Serializable {
+public class InputPacket implements Serializable {
     private OperatorType operator;
     private double operation1;
     private double operation2;
 
-    public Packet(OperatorType type, double op1, double op2) {
+    public InputPacket(OperatorType type, double op1, double op2) {
         this.operator = type;
         this.operation1 = op1;
         this.operation2 = op2;
