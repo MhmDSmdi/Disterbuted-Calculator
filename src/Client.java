@@ -33,8 +33,18 @@ public class Client {
             Scanner scanner = new Scanner(System.in);
             String userInput = scanner.nextLine().toUpperCase();
             String[] userInputArray = userInput.split(" ");
-            InputPacket packet = new InputPacket(OperatorType.valueOf(userInputArray[0]), Double.valueOf(userInputArray[1]), Double.valueOf(userInputArray[2]));
-            sendPacketToServer(packet);
+            if (userInputArray.length == 3) {
+                InputPacket packet = new InputPacket(OperatorType.valueOf(userInputArray[0]), Double.valueOf(userInputArray[1]), Double.valueOf(userInputArray[2]));
+                sendPacketToServer(packet);
+            }
+            else if (userInputArray.length == 2) {
+                InputPacket packet = new InputPacket(OperatorType.valueOf(userInputArray[0]), Double.valueOf(userInputArray[1]));
+                sendPacketToServer(packet);
+            }
+            else {
+                System.err.println("Input command not valid please enter command again: ");
+                continue;
+            }
             try {
                 inputStream = new ObjectInputStream(clientSocket.getInputStream());
                 ResultPacket resultPacket = (ResultPacket) inputStream.readObject();

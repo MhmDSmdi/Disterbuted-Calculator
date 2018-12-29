@@ -24,27 +24,51 @@ public class Server extends Thread {
 
     @Override
     public void run() {
-        System.out.println("server start listening on port : " + SERVER_PORT);
+        System.out.println("Server start on port : " + SERVER_PORT);
         Socket connection;
         while (true) {
             try {
+                System.out.println("Listening ...");
                 connection = serverSocket.accept();
-                System.out.println("Client accepted");
-                ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
+                new SClient(connection).start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class SClient extends Thread {
+        private Socket connection;
+
+        public SClient(Socket socket) {
+            this.connection = socket;
+        }
+
+        public Socket getSocket() {
+            return connection;
+        }
+
+        @Override
+        public void run() {
+            System.out.println("Client accepted -> " + connection.toString());
+            while (true) {
                 try {
-                    InputPacket inputPacket = (InputPacket) inputStream.readObject();
-                    long time = System.currentTimeMillis();
-                    double result = calculator.calculate(inputPacket);
-                    time = System.currentTimeMillis() - time;
-                    ResultPacket resultPacket = new ResultPacket(result, time);
-                    ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
-                    outputStream.writeObject(resultPacket);
-                } catch (ClassNotFoundException e) {
+                    ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
+                    try {
+                        InputPacket inputPacket = (InputPacket) inputStream.readObject();
+                        long time = System.currentTimeMillis();
+                        double result = calculator.calculate(inputPacket);
+                        time = System.currentTimeMillis() - time;
+                        ResultPacket resultPacket = new ResultPacket(result, time);
+                        ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
+                        outputStream.writeObject(resultPacket);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }

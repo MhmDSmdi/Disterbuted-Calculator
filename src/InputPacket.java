@@ -11,6 +11,11 @@ public class InputPacket implements Serializable {
         this.operation2 = op2;
     }
 
+    public InputPacket(OperatorType type, double op1) {
+        this.operator = type;
+        this.operation1 = op1;
+    }
+
     public OperatorType getOperator() {
         return operator;
     }
