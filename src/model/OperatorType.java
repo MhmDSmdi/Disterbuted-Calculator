@@ -1,3 +1,5 @@
+package model;
+
 public enum OperatorType {
     ADD(0),
     SUBTRACT(1),

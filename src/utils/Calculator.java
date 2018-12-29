@@ -1,3 +1,7 @@
+package utils;
+
+import model.InputPacket;
+
 public class Calculator {
 
     private double add(double op1, double op2) {

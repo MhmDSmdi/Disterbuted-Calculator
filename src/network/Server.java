@@ -1,3 +1,9 @@
+package network;
+
+import model.InputPacket;
+import model.ResultPacket;
+import utils.Calculator;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -24,7 +30,7 @@ public class Server extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Server start on port : " + SERVER_PORT);
+        System.out.println("network.Server start on port : " + SERVER_PORT);
         Socket connection;
         while (true) {
             try {
@@ -50,7 +56,7 @@ public class Server extends Thread {
 
         @Override
         public void run() {
-            System.out.println("Client accepted -> " + connection.toString());
+            System.out.println("network.Client accepted -> " + connection.toString());
             while (true) {
                 try {
                     ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());

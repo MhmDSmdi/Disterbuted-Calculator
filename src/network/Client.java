@@ -1,3 +1,9 @@
+package network;
+
+import model.InputPacket;
+import model.OperatorType;
+import model.ResultPacket;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -22,7 +28,7 @@ public class Client {
             outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
             outputStream.writeObject(inputPacket);
             outputStream.flush();
-            System.out.println("InputPacket Send to server");
+            System.out.println("model.InputPacket Send to server");
         } catch (IOException e) {
             e.printStackTrace();
         }
