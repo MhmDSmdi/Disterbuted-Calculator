@@ -21,7 +21,7 @@ public class Calculator {
     }
 
     private double sin(double op1) {
-        return Math.sin(op1);
+        return Math.sin(op1 / 180 * Math.PI);
     }
 
     private double cos(double op1) {

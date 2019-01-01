@@ -28,14 +28,24 @@ public class Client {
             outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
             outputStream.writeObject(inputPacket);
             outputStream.flush();
-            System.out.println("model.InputPacket Send to server");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void start() {
+        System.out.println("Instructions");
+        System.out.println("add [op1] [op2]");
+        System.out.println("subtract [op1] [op2]");
+        System.out.println("divide [op1] [op2]");
+        System.out.println("multiply [op1] [op2]");
+        System.out.println("sin [op1]");
+        System.out.println("cos [op1]");
+        System.out.println("tan [op1]");
+        System.out.println("cot [op1]");
+        System.out.println("----------------------------------");
         while (true) {
+            System.out.print("[Client] -> ");
             Scanner scanner = new Scanner(System.in);
             String userInput = scanner.nextLine().toUpperCase();
             String[] userInputArray = userInput.split(" ");

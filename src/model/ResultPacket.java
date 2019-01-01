@@ -30,7 +30,7 @@ public class ResultPacket implements Serializable {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Calculation Time: " + time + " ");
+        stringBuilder.append("Calculation Time: " + time + "ns ");
         stringBuilder.append("Result: " + result);
         return stringBuilder.toString();
     }

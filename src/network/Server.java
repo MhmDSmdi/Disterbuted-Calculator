@@ -4,6 +4,7 @@ import model.InputPacket;
 import model.ResultPacket;
 import utils.Calculator;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -30,11 +31,10 @@ public class Server extends Thread {
 
     @Override
     public void run() {
-        System.out.println("network.Server start on port : " + SERVER_PORT);
+        System.out.println("[Server] -> Server start listening on port : " + SERVER_PORT);
         Socket connection;
         while (true) {
             try {
-                System.out.println("Listening ...");
                 connection = serverSocket.accept();
                 new SClient(connection).start();
             } catch (IOException e) {
@@ -56,15 +56,15 @@ public class Server extends Thread {
 
         @Override
         public void run() {
-            System.out.println("network.Client accepted -> " + connection.toString());
+            System.out.println("[Server] -> " + connection.toString() + " accepted" );
             while (true) {
                 try {
                     ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
                     try {
                         InputPacket inputPacket = (InputPacket) inputStream.readObject();
-                        long time = System.currentTimeMillis();
+                        long time = System.nanoTime();
                         double result = calculator.calculate(inputPacket);
-                        time = System.currentTimeMillis() - time;
+                        time = System.nanoTime() - time;
                         ResultPacket resultPacket = new ResultPacket(result, time);
                         ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
                         outputStream.writeObject(resultPacket);
@@ -72,7 +72,8 @@ public class Server extends Thread {
                         e.printStackTrace();
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.err.println("Client Close Socket");
+                    this.stop();
                 }
 
             }
